@@ -40,7 +40,9 @@ static DEFINE_IDR(zram_index_idr);
 static DEFINE_MUTEX(zram_index_mutex);
 
 static int zram_major;
-#ifdef CONFIG_CRYPTO_LZ4
+#if defined(CONFIG_CRYPTO_ZSTD)
+static const char *default_compressor = "zstd";
+#elif defined(CONFIG_CRYPTO_LZ4)
 static const char *default_compressor = "lz4";
 #elif defined(CONFIG_CRYPTO_LZ4HC)
 static const char *default_compressor = "lz4hc";
