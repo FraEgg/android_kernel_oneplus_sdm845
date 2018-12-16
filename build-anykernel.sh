@@ -9,9 +9,15 @@
 ## |                                                                                               | ##
 ## | Current Device Setup: OnePlus 6/6T                                                            | ##
 ## |                                                                                               | ##
-## |                                                                                               | ##
+## | v26.8                                                                                         | ##
 ## |                                                                                               | ##
 ## | Updated: 11/28/2018: Rewrote a few vars for new paths and fixed signing keys.                 | ##
+## | Updated: 12/16/2018: Added Clang Options (ON/OFF)                                             | ##
+## |                                                                                               | ##
+## |                                                                                               | ##
+## |                                                                                               | ##
+## |                                                                                               | ##
+## |                                                                                               | ##
 ## ------------------------------------------------------------------------------------------------- ##
 
 ## <<<< DONT EDIT ANYTHING BELOW THIS >>>> ##
@@ -380,6 +386,36 @@ case $retval in
 esac
 }
 
+## Logging options ##
+function use_clang {
+DIALOG=${DIALOG=dialog}
+tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+$DIALOG --backtitle "Clang Options" \
+	--title "Menu: Clang Options" --clear \
+        --radiolist "Clang ON/OFF" 20 61 5 \
+        "ON"  "Clang Turned ON" on \
+        "OFF" "Clang Turned OFF" off 2> $tempfile
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+  0)
+	if [ "$choice" == "ON" ]; then
+	echo "CLANG ON TEST"
+	fi
+	if [ "$choice" == "OFF" ]; then
+	echo "Clang OFF TEST"
+	fi
+	_clang_on_off;;
+  1)
+    echo "Cancel pressed.";;
+  255)
+    echo "ESC pressed.";;
+esac
+}
+
 function SET_LOCALVERSION() {
 	if [ "$SET_LOCAL"  == 01 ]; then
 	echo "Local Version From ${DEFCONFIG} Has been Changed to the Following:"
@@ -427,7 +463,7 @@ while true
 do
 
 ### display main menu ###
-dialog --clear  --help-button --backtitle "Linux Shell Script Tutorial" \
+dialog --clear  --help-button --backtitle "Nebula Kernel" \
 --title "[ M A I N - M E N U ]" \
 --menu "You can use the UP/DOWN arrow keys, the first \\n\
 letter of the choice as a hot key, or the \\n\
@@ -682,7 +718,7 @@ esac
 
 ##  Build Kernel Y/N ##
 dialog --title "Build Kernel" \
-	--backtitle "Linux Shell Script Tutorial Example" \
+	--backtitle "Nebula Kernel Building Mode" \
 	--yesno "You are about to Build Kernel For $VARIANT, \\n\
 	Are you sure you want to build Kernel ?" 7 60
  
@@ -866,7 +902,7 @@ esac
 
 ##  Build Kernel Y/N ##
 dialog --title "Build Kernel" \
-	--backtitle "Linux Shell Script Tutorial Example" \
+	--backtitle "Nebula Kernel Building Mode" \
 	--yesno "You are about to Build Kernel For $VARIANT, \\n\
 	Are you sure you want to build Kernel ?" 7 60
  
@@ -951,7 +987,8 @@ cmd=(dialog --keep-tite --menu "Select options:" 22 76 16)
 options=(1 "Change Clang: Current: ${CLANG_NAME}"
         2 "Change ToolChain: Current: ${TC_NAME}"
          3 "Change Destro Current: ${TC_DESTRO}"
-		 4 "Change Prefix")
+		 4 "Change Prefix"
+		 5 "Clang Options")
 
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 
@@ -965,6 +1002,8 @@ do
 		3)  tc_changedestro
 			break;;
 		4) echo "Not Implanted yet"
+			break;;
+		5) use_clang
 			break;;
 		
     esac
