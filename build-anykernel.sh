@@ -13,7 +13,7 @@
 ## |                                                                                               | ##
 ## | Updated: 11/28/2018: Rewrote a few vars for new paths and fixed signing keys.                 | ##
 ## | Updated: 12/16/2018: Added Clang Options (ON/OFF)                                             | ##
-## |                                                                                               | ##
+## | Updated: 12/19/2018 Fixed clean_all section.                                                  | ##
 ## |                                                                                               | ##
 ## |                                                                                               | ##
 ## |                                                                                               | ##
@@ -293,12 +293,14 @@ function clean_all {
 		rm -rf *.bak
 		rm -rf *.zip
 		cd $KERNEL_DIR
-		if [ -e "$OUTPUT_DIR" ]; then
+		echo "Cleaning Main Kernel ROOT Directory."
+		make clean && make mrproper
+		echo "Running Make Clean and Make MrProper in ${OUTPUT_DIR} Directory."
+		make O=${OUTPUT_DIR} clean && make O=${OUTPUT_DIR} mrproper
+        if [ -e "$OUTPUT_DIR" ]; then
 		echo "Deleting ${OUTPUT_DIR} Directory."
 		rm -rf $OUTPUT_DIR
 		fi
-		echo "Running Make Clean and Make MrProper"
-		make O=${OUTPUT_DIR} clean && make O=${OUTPUT_DIR} mrproper
 }
 
 function set_timestamp() {
