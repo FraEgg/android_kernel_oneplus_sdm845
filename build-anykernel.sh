@@ -673,15 +673,15 @@ choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
 for choice in $choices
 do
     case $choice in
-        1)	VARIANT="OnePlus6T"
+        1)	VARIANT="OnePlus6and6T"
 		DEFCONFIG="nebula_defconfig"
 		break;;
 
-        2)	VARIANT="OnePlus6T"
+        2)	VARIANT="OnePlus6and6T"
 		DEFCONFIG="nebula_defconfig"
 		break;;
 		
-        3)	VARIANT="OnePlus6T"
+        3)	VARIANT="OnePlus6and6T"
 		DEFCONFIG="nebula2_defconfig"
 		break;;
 	
