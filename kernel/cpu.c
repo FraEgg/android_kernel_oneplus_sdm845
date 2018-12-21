@@ -611,7 +611,6 @@ static int cpuhp_up_callbacks(unsigned int cpu, struct cpuhp_cpu_state *st,
 		if (ret) {
 			st->target = prev_state;
 			undo_cpu_up(cpu, st);
-			/* delete by xcb cpu_notify(CPU_UP_CANCELED, cpu); */
 			break;
 		}
 	}
@@ -1474,7 +1473,10 @@ static struct cpuhp_step cpuhp_bp_states[] = {
 		.name			= "notify:prepare",
 		.startup.single		= notify_prepare,
 		.teardown.single	= notify_dead,
+<<<<<<< HEAD
 		/* delete byxcb .skip_onerr		= true, */
+=======
+>>>>>>> LA.UM.7.3.r1-05500-sdm845.0
 		.cant_stop		= true,
 	},
 	/*
@@ -1580,7 +1582,10 @@ static struct cpuhp_step cpuhp_ap_states[] = {
 		.name			= "notify:online",
 		.startup.single		= notify_online,
 		.teardown.single	= notify_down_prepare,
+<<<<<<< HEAD
 		/* delete by xcb .skip_onerr		= true, */
+=======
+>>>>>>> LA.UM.7.3.r1-05500-sdm845.0
 	},
 #endif
 	/*
