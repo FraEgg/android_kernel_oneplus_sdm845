@@ -9,13 +9,13 @@
 ## |                                                                                               | ##
 ## | Current Device Setup: OnePlus 6/6T                                                            | ##
 ## |                                                                                               | ##
-## | v26.8                                                                                         | ##
+## | v30.1                                                                                         | ##
 ## |                                                                                               | ##
 ## | Updated: 11/28/2018: Rewrote a few vars for new paths and fixed signing keys.                 | ##
 ## | Updated: 12/16/2018: Added Clang Options (ON/OFF)                                             | ##
-## | Updated: 12/19/2018 Fixed clean_all section.                                                  | ##
+## | Updated: 12/19/2018: Fixed clean_all section.                                                 | ##
 ## | Updated: 12/24/2018: Changed How CCACHE is located and cleaned.                               | ##
-## |                                                                                               | ##
+## | Updated: 12/25/2018: Cleaning Modules Without Removing Custom Module.                         | ##
 ## |                                                                                               | ##
 ## |                                                                                               | ##
 ## ------------------------------------------------------------------------------------------------- ##
@@ -93,6 +93,7 @@ export SIGNFILE_KEY_B=$SIGNFILE_KEY_B
 export USE_SCRIPTS=$USE_SCRIPTS
 export SPLIT_DTB=$SPLIT_DTB
 export DTBTOOL=$DTBTOOL
+export CUSTOM_MODULE=$CUSTOM_MODULE
 #export ERROR_LOG=$ERROR_LOG
 export VARIANTS=$VARIANTS
 export DEBUG_BUILD=$DEBUG_BUILD
@@ -281,7 +282,14 @@ function TIME_END() {
 ## Clean everything that is left over ##
 function clean_all {
 		echo "Cleaning out $COMPRESSED_IMAGE_DIR"
+		if [ "$CUSTOM_MODULE" == "1" ]; then
+        cd $MODULES_DIR
+		echo "Cleaning Modules, But keeping Custom wlan:"
+		ls | grep -v wlan.ko | xargs rm
+		else
+		echo "Cleaning All Modules, No Custom Set:"
 		rm -rf $MODULES_DIR/*
+		fi
 		cd $COMPRESSED_IMAGE_DIR
 		rm -rf Image.gz-dtb
 		rm -rf $KERNEL
