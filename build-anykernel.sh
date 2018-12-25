@@ -14,7 +14,7 @@
 ## | Updated: 11/28/2018: Rewrote a few vars for new paths and fixed signing keys.                 | ##
 ## | Updated: 12/16/2018: Added Clang Options (ON/OFF)                                             | ##
 ## | Updated: 12/19/2018 Fixed clean_all section.                                                  | ##
-## |                                                                                               | ##
+## | Updated: 12/24/2018: Changed How CCACHE is located and cleaned.                               | ##
 ## |                                                                                               | ##
 ## |                                                                                               | ##
 ## |                                                                                               | ##
@@ -1051,7 +1051,7 @@ case $menuitem in
 		Clean) clean_all ;;
 		TC) tc_menu ;;
 		Log) menu_log ;;
-		Ccache) echo "Clearing Ccache.."; rm -rf "${HOME}"/.ccache ;;
+		Ccache) echo "Clearing Ccache.."; rm -rf "${CCACHE_DIR}" ;;
 		Build_Zip) make_zip; exit;;
 		Settings) menu_settings ;;
 		Test) script_settings ; exit ;;
